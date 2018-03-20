@@ -1,6 +1,11 @@
 GEM
-  remote: https://rubygems.org/
+  remote: http://gems.ruby-china.org/
   specs:
+    activesupport (4.2.10)
+      i18n (~> 0.7)
+      minitest (~> 5.1)
+      thread_safe (~> 0.3, >= 0.3.4)
+      tzinfo (~> 1.1)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
     colorator (1.1.0)
@@ -11,6 +16,10 @@ GEM
     eventmachine (1.2.5-x64-mingw32)
     ffi (1.9.23-x64-mingw32)
     forwardable-extended (2.6.0)
+    gemoji (3.0.0)
+    html-pipeline (2.7.1)
+      activesupport (>= 2)
+      nokogiri (>= 1.4)
     http_parser.rb (0.6.0)
     i18n (0.9.5)
       concurrent-ruby (~> 1.0)
@@ -29,12 +38,24 @@ GEM
       safe_yaml (~> 1.0)
     jekyll-feed (0.9.3)
       jekyll (~> 3.3)
+    jekyll-paginate (1.1.0)
     jekyll-sass-converter (1.5.2)
       sass (~> 3.4)
-    jekyll-seo-tag (2.4.0)
+    jekyll-sitemap (1.2.0)
       jekyll (~> 3.3)
+    jekyll-text-theme (1.5.0)
+      jekyll (~> 3.5)
+      jekyll-feed (~> 0.9.2)
+      jekyll-paginate (~> 1.1)
+      jekyll-sitemap (~> 1.0)
+      jemoji (~> 0.8)
     jekyll-watch (2.0.0)
       listen (~> 3.0)
+    jemoji (0.9.0)
+      activesupport (~> 4.0, >= 4.2.9)
+      gemoji (~> 3.0)
+      html-pipeline (~> 2.2)
+      jekyll (~> 3.0)
     kramdown (1.16.2)
     liquid (4.0.0)
     listen (3.1.5)
@@ -42,10 +63,10 @@ GEM
       rb-inotify (~> 0.9, >= 0.9.7)
       ruby_dep (~> 1.2)
     mercenary (0.3.6)
-    minima (2.4.0)
-      jekyll (~> 3.5)
-      jekyll-feed (~> 0.9)
-      jekyll-seo-tag (~> 2.1)
+    mini_portile2 (2.3.0)
+    minitest (5.11.3)
+    nokogiri (1.8.2-x64-mingw32)
+      mini_portile2 (~> 2.3.0)
     pathutil (0.16.1)
       forwardable-extended (~> 2.6)
     public_suffix (3.0.2)
@@ -65,17 +86,13 @@ GEM
       thread_safe (~> 0.1)
     tzinfo-data (1.2018.3)
       tzinfo (>= 1.0.0)
-    wdm (0.1.1)
 
 PLATFORMS
   x64-mingw32
 
 DEPENDENCIES
-  jekyll (~> 3.7.3)
-  jekyll-feed (~> 0.6)
-  minima (~> 2.0)
+  jekyll-text-theme
   tzinfo-data
-  wdm (~> 0.1.0)
 
 BUNDLED WITH
    1.16.1
