@@ -1,0 +1,42 @@
+---
+layout: post
+title: "Java AQS源码分析"
+categories: 并发
+---
+
+## 简介
+
+`java.util.concurrent`（`juc`）并发包里的大多数同步器都是通过使用`AbstractQueuedSynchronizer`框架来实现的。该框架提供了一些通用的方法来管理同步状态，管理线程的阻塞和非阻塞以及线程等待队列。了解该框架的设计以及实现原理对理解Java中的同步器会非常有帮助。
+
+## 需求
+### 功能需求
+同步器至少要包含两个方法：`acquire`和`release`。`acquire`方法从同步器中获取一个状态，当该状态不满足条件时会将调用线程阻塞。`release`方法会改变同步器的状态，状态的变化会使得其他处于阻塞状态的线程获取到满足条件的状态从而停止阻塞。
+
+在`juc`中并没有为同步器定义这样一个统一的API，所以在很多同步器中的`acquire`和`release`可能会被叫成其他的名字。比如`Lock.lock`,`Semaphore.acquire`,`CountDownLatch.await`和`FutureTask.get`其实就是同步器的`acquire`操作。但是这些类都要遵循着一致的同步器约定，这些约定包括：
+
+ - 阻塞或非阻塞的尝试获取状态，比如`lock`和`tryLock`
+ - 获取超时机制，这样应用程序可以放弃等待操作，比如`lock`和`lock(long timeout)`。
+ - 支持通过中断操作以取消获取，比如`lock`和`lock(bool cancel)`
+
+同步器对同步状态的管理可以分为独占式和共享式，比如`Lock`的实现通常是独占式，`Counting Semophore`的实现通常是共享式，因此`AQS`在实现上要支持这两种模式。
+
+### 性能需求
+java的内置锁如synchronized方法通常被认为会有性能影响，比如任意一个java对象都可以作为一个lock对象，需要在每个java对象的头部添加一个锁标志位，比较浪费空间。但对于同步器而言，应用程序是运行在多线程甚至多核环境中的，对于对象存储空间以及编译器对于锁的优化等性能需求要求不大。最主要的性能需求是可扩展性（scalability）。
+
+### 设计实现
+
+`acquire`部分的操作如下所示：
+```
+while (synchronization state does not allow acquire){
+	enqueue current thread if not already queued;
+	possibly block currnet thread;
+}
+dequeue current thread if it was queued;
+```
+`release`部分的操作如下所示：
+```
+update synchronization state;
+if (state may permit a block thread to )
+```
+
+http://gee.cs.oswego.edu/dl/papers/aqs.pdf
